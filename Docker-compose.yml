@@ -7,13 +7,14 @@ services:
       dockerfile: Dockerfile
     container_name: golang-app
     ports:
-      - "8080:8080"  # ánh xạ cổng host:container
+      - "${APP_PORT}:${APP_PORT}"
+    tty: true
     environment:
-      DB_HOST: localhost
-      DB_PORT: 3307
-      DB_USER: root
-      DB_PASSWORD: 123456
-      DB_NAME: golang_db
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
     depends_on:
       - db
 
@@ -21,12 +22,12 @@ services:
     image: mysql:8.0
     container_name: mysql-db
     environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-      MYSQL_DATABASE: golang_db
-      MYSQL_USER: merchant
-      MYSQL_PASSWORD: 123456
+      MYSQL_ALLOW_EMPTY_PASSWORD: ${MYSQL_ALLOW_EMPTY_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
-      - "3307:3306"  # ánh xạ cổng host:container
+      - "${PORT_CTN_CONN}:3306"
     volumes:
       - db_data:/var/lib/mysql
 
